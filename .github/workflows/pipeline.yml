@@ -22,6 +22,11 @@ jobs:
         run: npm run eslint
       - name: build
         run: npm run build
+      - name: Notify on slack - Build failed
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       - name: test
         run: npm test
       - name: e2e tests
@@ -49,6 +54,11 @@ jobs:
           healthcheck: "https://pokemon-listing-rv.herokuapp.com/health"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
+      - name: Notify on slack - Deplyed succesfully
+        if: ${{ success() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       - uses: actions/checkout@v2
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
       - name: Bump version and push tag
