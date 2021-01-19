@@ -39,7 +39,7 @@ jobs:
         env:
           COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
         run: echo "$COMMIT_MESSAGES"
-      - name: event name
+      - name: log event name
         env:
           EVENT_NAME: ${{ toJson(github.event_name) }}
         run: echo "$EVENT_NAME"
