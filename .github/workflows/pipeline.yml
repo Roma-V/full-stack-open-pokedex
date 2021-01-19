@@ -27,6 +27,7 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_TITLE: Build failed in deployment pipeline
       - name: test
         run: npm test
       - name: e2e tests
@@ -59,6 +60,8 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_TITLE: Deployment
+          SLACK_FOOTER: to https://pokemon-listing-rv.herokuapp.com
       - uses: actions/checkout@v2
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
       - name: Bump version and push tag
